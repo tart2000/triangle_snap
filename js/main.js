@@ -49,19 +49,26 @@ window.onload = function() {
             myPath = new Path();
             myPath.strokeColor = 'black';
             counter++;
+            point1 = event.point; 
         }
         else if (counter == 1) {
             counter++; 
-        } else {
-            var color = raster.getPixel(myPath.position);
+            point2 = event.point; 
+        } else if (counter == 2) {
+            point3 = event.point; 
+            avgx = (point1.x + point2.x + point3.x)/3
+            avgy = (point1.y + point2.y + point3.y)/3
+            var color = raster.getPixel(avgx, avgy);
             myPath.closed = true;
             myPath.fillColor = color;
             trianglesLayer.addChild(myPath);
             myPath.strokeWidth = 0;
+            // circle = new Path.Circle({center: [avgx,avgy], radius:3, fillColor:'red'});
             counter = 0;
+        } else {
+            console.log('this really shouldnt be happening');
         }
         addToTriangle(event);
-
     }
 
     function enter (event) {
@@ -108,6 +115,24 @@ window.onload = function() {
             rasterVis = 1; 
             $(this).html('Hide image');
         }
+    });
+
+    // Download SVG - Would be fun to clear image + white circles before downloading... 
+    function downloadDataUri(options) {
+        if (!options.url)
+            options.url = "http://download-data-uri.appspot.com/";
+        $('<form method="post" action="' + options.url
+            + '" style="display:none"><input type="hidden" name="filename" value="'
+            + options.filename + '"/><input type="hidden" name="data" value="'
+            + options.data + '"/></form>').appendTo('body').submit().remove();
+    }
+
+    $("#download").click(function() {
+        var svg = project.exportSVG({ asString: true });
+        downloadDataUri({
+            data: 'data:image/svg+xml;base64,' + btoa(svg),
+            filename: 'export.svg'
+        });
     });
 
 }
