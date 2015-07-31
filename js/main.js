@@ -2,7 +2,12 @@
 
 paper.install(window);
 
-
+substractPoints = function(point1, point2) {
+    var newPoint = new Point();
+    newPoint.x = point1.x - point2.x;
+    newPoint.y = point1.y - point2.y;
+    return newPoint;
+}
 
 window.onload = function() {
 
@@ -18,12 +23,11 @@ window.onload = function() {
     
     // scaling to make the image full width 
     raster.onLoad = function () {
-        var rasterSize = raster.getImageData(); 
-        var ratio = viewSize.width/rasterSize.width;
-        var aspectRatio = rasterSize.width/rasterSize.height;
-        var normalHeight = viewSize.width*ratio;
-        raster.size = new Size(viewSize.width,viewSize.height); // still getting a weird aspect ratio. Needs fixing. 
-        
+	    var rasterSize = raster.getImageData();
+	    var ratio = 1.0;
+	    if (viewSize.width < rasterSize.width)
+            ratio = viewSize.width / rasterSize.width;
+        raster.size = new Size(rasterSize.width * ratio, rasterSize.height * ratio);
     }
 
     var trianglesLayer = new Layer();
@@ -44,18 +48,21 @@ window.onload = function() {
         // adding circles on click 
         makeCircle(event);
 
+        var rasterSize = new Point(raster.getImageData().width / 2, raster.getImageData().height / 2);
+        var clickedPoint = substractPoints(event.point, substractPoints(raster.position, rasterSize));
+
         // different situations if 1st, 2nd or 3rd point of triangle 
         if (counter == 0) {
             myPath = new Path();
             myPath.strokeColor = 'black';
             counter++;
-            point1 = event.point; 
+            point1 = clickedPoint; 
         }
         else if (counter == 1) {
             counter++; 
-            point2 = event.point; 
+            point2 = clickedPoint; 
         } else if (counter == 2) {
-            point3 = event.point; 
+            point3 = clickedPoint; 
             avgx = (point1.x + point2.x + point3.x)/3
             avgy = (point1.y + point2.y + point3.y)/3
             var color = raster.getPixel(avgx, avgy);
