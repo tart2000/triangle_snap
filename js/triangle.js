@@ -27,11 +27,22 @@ function Triangle() {
       that.isFinished = true;
       that.path.closed = true;
       that.path.fillColor = 'red';
+      that.path.strokeWidth = 0;
       Triangle.layer.addChild(that.path);
       return true;
     }
     else {
       return false;
+    }
+  }
+
+  /***********/
+  this.movePointTo = function(x1, y1, x2, y2) {
+    for (var i = 0; i < that.path.segments.length; i++) {
+      if (that.path.segments[i].point.x == x1 || that.path.segments[i].point.y == x2) {
+        that.path.segments[i].point.x = x2;
+        that.path.segments[i].point.y = y2;
+      }
     }
   }
   
