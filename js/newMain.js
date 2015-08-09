@@ -12,6 +12,9 @@ function onMouseDown(event) {
 
 /*************/
 function onMouseDrag(event) {
+  if (event.delta < cSnapDistance)
+    return;
+
   if (_selectedVertex != undefined)
     return;
 

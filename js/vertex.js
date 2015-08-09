@@ -11,6 +11,7 @@ function Vertex(x, y) {
   this.position = [x, y];
   this.circle = createCircle(x, y);
 
+  this.isUsedForTriangle = false;
   this.isSnapped = false;
   this.triangles = [];
 
@@ -29,16 +30,26 @@ function Vertex(x, y) {
 
   /***********/
   function mouseEnter(event) {
-    that.circle.fillColor = 'black';
-    that.circle.blendMode = 'normal';
     that.isSnapped = true;
+    that.setVisible(true);
   }
 
   /***********/
   function mouseLeave(event) {
-    that.circle.fillColor = 'white';
-    that.circle.blendMode = 'multiply';
     that.isSnapped = false;
+    if (!that.isUsedForTriangle)
+      that.setVisible(false);
+  }
+
+  /***********/
+  this.setVisible = function(visibility) {
+    if (visibility == true) {
+      that.circle.fillColor = 'black';
+      that.circle.blendMode = 'normal';
+    } else {
+      that.circle.fillColor = 'white';
+      that.circle.blendMode = 'multiply';
+    }
   }
 
   /***********/

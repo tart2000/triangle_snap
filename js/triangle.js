@@ -19,11 +19,19 @@ function Triangle() {
       return true;
     }
 
+    vertex.isUsedForTriangle = true;
+    vertex.setVisible(true);
+
     vertex.addTriangle(that);
     that.vertices.push(vertex);
     that.path.add(vertex.position);
 
     if (that.vertices.length == 3) {
+      for (var i = 0; i < that.vertices.length; ++i) {
+        that.vertices[i].isUsedForTriangle = false;
+        that.vertices[i].setVisible(false);
+      }
+
       that.isFinished = true;
       that.path.closed = true;
       that.path.fillColor = 'red';
@@ -49,7 +57,7 @@ function Triangle() {
   /***********/
   this.setColorFromRaster = function(raster) {
     var center = new paper.Point(0, 0);
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < that.vertices.length; i++) {
       center.x += that.vertices[i].position[0];
       center.y += that.vertices[i].position[1];
     }
