@@ -42,6 +42,37 @@ function Vertex(x, y) {
   }
 
   /***********/
+  this.erase = function() {
+    var currentTriangle = that.triangles.slice(0);
+    for (var i = 0; i < currentTriangle.length; ++i) {
+      currentTriangle[i].erase();
+    }
+
+    that.triangles = [];
+    that.circle.remove();
+  }
+
+  /***********/
+  this.removeFrom = function(triangle) {
+    var triIndex = -1;
+    that.triangles.find(function(elem, index, array) {
+      if (elem == triangle) {
+        triIndex = index;
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    if (triIndex != -1) {
+      that.triangles.splice(triIndex, 1);
+    }
+
+    if (that.triangles.length == 0)
+      that.erase();
+  }
+
+  /***********/
   this.setVisible = function(visibility) {
     if (visibility == true) {
       that.circle.fillColor = 'black';

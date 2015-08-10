@@ -29,14 +29,25 @@ function onMouseDrag(event) {
 /*************/
 function onMouseUp(event) {
   if (_selectedVertex != undefined) {
+    // A point is dragged: move it
     _selectedVertex.moveTo(event.point.x, event.point.y);
     for (var i = 0; i < _triangleArray.length; i++) {
       _triangleArray[i].setColorFromRaster(_raster);
     }
-  }
-  else {
-    var currentVertex = undefined;
+  } else if (paper.Key.isDown('control')) {
+    // Control key pressed: delete a point
+    var currentVertex = _vertexArray.find(function(elem, index, array) {
+      return elem.isSnapped;
+    });
+    
+    if (currentVertex != undefined) {
+      currentVertex.erase();
+    }
 
+    collectVertAndTris();
+  } else {
+    // Default behavior: add a point
+    var currentVertex = undefined;
     for (var i = 0; i < _vertexArray.length; i++)
       if (_vertexArray[i].isSnapped)
         currentVertex = _vertexArray[i];
@@ -65,6 +76,23 @@ function initLayers() {
 
   Triangle.layer.moveAbove(_raster.raster);
   Vertex.layer.moveAbove(Triangle.layer);
+}
+
+/*************/
+function collectVertAndTris() {
+  _vertexArray = _vertexArray.filter(function(vertex, index, array) {
+    if (vertex.triangles.length == 0)
+      return false;
+    else
+      return true;
+  });
+
+  _triangleArray = _triangleArray.filter(function(tri, index, array) {
+    if (tri.vertices.length == 0)
+      return false;
+    else
+      return true;
+  });
 }
 
 /*************/

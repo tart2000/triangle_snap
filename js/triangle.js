@@ -45,6 +45,17 @@ function Triangle() {
   }
 
   /***********/
+  this.erase = function() {
+    var currentVertices = that.vertices.slice(0);
+    for (var i = 0; i < currentVertices.length; ++i) {
+      currentVertices[i].removeFrom(that);
+    }
+
+    that.vertices = [];
+    that.path.remove();
+  }
+
+  /***********/
   this.movePointTo = function(x1, y1, x2, y2) {
     for (var i = 0; i < that.path.segments.length; i++) {
       if (that.path.segments[i].point.x == x1 || that.path.segments[i].point.y == x2) {
