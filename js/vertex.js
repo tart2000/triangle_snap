@@ -85,14 +85,6 @@ function Vertex(x, y) {
 
   /***********/
   this.addTriangle = function(triangle) {
-    //if (that.triangles.length == 0 || that.triangles.find(function(element, index, array) {
-    //    if (element == triangle)
-    //      return true;
-    //    else
-    //      return false;
-    //  }) != undefined) {
-    //  that.triangles.push(triangle);
-    //}
     that.triangles.push(triangle);
   }
 

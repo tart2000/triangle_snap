@@ -18,10 +18,9 @@ function onMouseDrag(event) {
   if (_selectedVertex != undefined)
     return;
 
-  var selectedVertex = undefined;
-  for (var i = 0; i < _vertexArray.length; i++)
-    if (_vertexArray[i].isSnapped)
-      selectedVertex = _vertexArray[i];
+  var selectedVertex = _vertexArray.find(function(vertex, index, array) {
+    return vertex.isSnapped;
+  });
 
   _selectedVertex = selectedVertex;
 }
@@ -47,10 +46,9 @@ function onMouseUp(event) {
     collectVertAndTris();
   } else {
     // Default behavior: add a point
-    var currentVertex = undefined;
-    for (var i = 0; i < _vertexArray.length; i++)
-      if (_vertexArray[i].isSnapped)
-        currentVertex = _vertexArray[i];
+    var currentVertex = _vertexArray.find(function(vertex, index, array) {
+      return vertex.isSnapped;
+    });
 
     if (currentVertex == undefined) {
       currentVertex = new Vertex(event.point.x, event.point.y);
