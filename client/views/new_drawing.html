@@ -6,8 +6,10 @@
 	    </div>
 	    <div class="form-group">
 	        <label class="control-label" for="message">Background image</label>
-	        <input name="message" type="file" value=""/>
-	        {{>newCanvas}}
+	        <input id="file-input" type="file" value=""/>
+	        <canvas id="preview" resize></canvas>
+	        <img src="" id="#blah" />
+
 		</div>
 	    <div class="form-group">
 	        <div class="controls">
