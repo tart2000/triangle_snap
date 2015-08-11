@@ -98,7 +98,7 @@ window.onload = function() {
   var canvas = document.getElementById('lowpolyCanvas');
   paper.setup(canvas);
 
-  _raster = new Raster('/home/manu/src/triangle_snap/images/bird.jpg');
+  _raster = new Raster('./images/bird.jpg');
   initLayers();
 
   var tool = new paper.Tool();
